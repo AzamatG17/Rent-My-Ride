@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RendMyRide.DataAccess\RendMyRide.DataAccess.csproj" />
     <ProjectReference Include="..\RendMyRide.Domain\RendMyRide.Domain.csproj" />
   </ItemGroup>
 
