@@ -1,6 +1,11 @@
 using RendMyRide.Extensions;
+using RendMyRide.Infrastructure.JwtToken;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+builder.Services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -9,6 +9,7 @@ namespace RendMyRide.DataAccess
     {
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public RendMyRideDbContext(DbContextOptions<RendMyRideDbContext> options)
             :base(options)
