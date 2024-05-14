@@ -1,4 +1,4 @@
-﻿namespace RendMyRide.Domain
+﻿namespace RendMyRide.Services
 {
     public class Class1
     {
