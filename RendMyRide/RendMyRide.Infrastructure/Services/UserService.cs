@@ -7,11 +7,11 @@ namespace RendMyRide.Infrastructure.Services
 {
     public class UserService
     {
-        private readonly IUserRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
 
-        public UserService(IUserRepository<User> userRepository, IPasswordHasher password, IJwtProvider jwtProvider)
+        public UserService(IUserRepository userRepository, IPasswordHasher password, IJwtProvider jwtProvider)
         {
             _userRepository = userRepository;
             _passwordHasher = password;
