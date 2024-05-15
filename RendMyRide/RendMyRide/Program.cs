@@ -9,8 +9,9 @@ builder.Services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOption
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.ConfigureRepositories();
 builder.Services.ConfigureDatabaseContext();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
@@ -31,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Register}/{id?}");
 
 app.Run();
