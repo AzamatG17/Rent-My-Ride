@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using RendMyRide.DataAccess;
 using RendMyRide.Extensions;
 using RendMyRide.Infrastructure.JwtToken;
 
@@ -8,9 +10,11 @@ var configuration = builder.Configuration;
 builder.Services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
 // Add services to the container.
+builder.Services.AddDbContext<RendMyRideDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RentMyRideConnection")));
+
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureRepositories();
-builder.Services.ConfigureDatabaseContext();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
