@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RendMyRide.Contracts.Users;
+using RendMyRide.Domain.Interfaces.Services;
 using RendMyRide.Infrastructure.Services;
 
 namespace RendMyRide.Controllers
 {
-    [Route("api/auth")]
-    [ApiController]
-    public class UserController(UserService userService) : ControllerBase
+    public class UserController(IUserService userService) : Controller
     {
-        private readonly UserService _userService = userService;
+        private readonly IUserService _userService = userService;
 
-        [HttpPost("register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("register")]
         public async Task<ActionResult> Register(RegisterUser registerUser)
         {
             await _userService
@@ -19,7 +23,12 @@ namespace RendMyRide.Controllers
             return Ok();
         }
 
-        [HttpPost("login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("login")]
         public async Task<ActionResult> Login(LoginUser loginUser)
         {
             var token = _userService.Login(loginUser.Email, loginUser.Password);

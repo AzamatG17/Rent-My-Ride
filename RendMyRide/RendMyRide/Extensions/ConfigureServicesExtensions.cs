@@ -4,9 +4,11 @@ using RendMyRide.DataAccess.Repository;
 using RendMyRide.Domain.Interfaces.Auth;
 using RendMyRide.Domain.Interfaces.JwtTokenGenerate;
 using RendMyRide.Domain.Interfaces.Repositories;
+using RendMyRide.Domain.Interfaces.Services;
 using RendMyRide.Domain.Models;
 using RendMyRide.Infrastructure.JwtToken;
 using RendMyRide.Infrastructure.PasswordHash;
+using RendMyRide.Infrastructure.Services;
 using Serilog;
 
 namespace RendMyRide.Extensions
@@ -29,7 +31,9 @@ namespace RendMyRide.Extensions
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository<User>, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers()
               .AddNewtonsoftJson(options =>

@@ -6,13 +6,14 @@ using RendMyRide.Domain.Models;
 
 namespace RendMyRide.DataAccess.Repository
 {
-    public class UserRepository : RepositoryBase<User>, IUserRepository
+    public class UserRepository : IUserRepository<User>
     {
         private readonly RendMyRideDbContext _context;
         private readonly IMapper _mapper;
 
-        public UserRepository(RendMyRideDbContext context, IMapper mapper) : base(context)
+        public UserRepository(RendMyRideDbContext context, IMapper mapper)
         {
+            _context = context;
             _mapper = mapper;
         }
 
