@@ -29,11 +29,13 @@ namespace RendMyRide.Controllers
         }
 
         [HttpPost, ActionName("login")]
-        public async Task<ActionResult> Login(LoginUser loginUser)
+        public async Task<ActionResult> Login(LoginUser loginUser, HttpContext context)
         {
-            var token = _userService.Login(loginUser.Email, loginUser.Password);
+            var token = await _userService.Login(loginUser.Email, loginUser.Password);
 
-            return Ok(token);
+            context.Response.Cookies.Append("tasty-cookies", token);
+
+            return Ok();
         }
 
     }

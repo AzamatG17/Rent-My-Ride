@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using RendMyRide.DataAccess;
 using RendMyRide.DataAccess.Repository;
 using RendMyRide.Domain.Interfaces.Auth;
@@ -10,6 +13,7 @@ using RendMyRide.Infrastructure.JwtToken;
 using RendMyRide.Infrastructure.PasswordHash;
 using RendMyRide.Infrastructure.Services;
 using Serilog;
+using System.Text;
 
 namespace RendMyRide.Extensions
 {
@@ -42,6 +46,38 @@ namespace RendMyRide.Extensions
                );
 
             return services;
+        }
+
+        public static void AddApiAuthentication(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            IOptions<JwtOptions> JwtOptions)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(JwtOptions.Value.SecretKey))
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["tasty-cookies"];
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            services.AddAuthorization();
         }
     }
 }
